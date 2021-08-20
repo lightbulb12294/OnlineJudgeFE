@@ -52,6 +52,7 @@
                 <el-option :label="$t('m.Low')" value="Low"></el-option>
                 <el-option :label="$t('m.Mid')" value="Mid"></el-option>
                 <el-option :label="$t('m.High')" value="High"></el-option>
+                <el-option :label="$t('m.Hidden')" value="Hidden"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -330,7 +331,7 @@
           output_description: '',
           time_limit: 1000,
           memory_limit: 256,
-          difficulty: 'Low',
+          difficulty: 'Hidden',
           visible: true,
           share_submission: false,
           tags: [],

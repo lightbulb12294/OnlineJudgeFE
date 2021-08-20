@@ -15,6 +15,7 @@
                 <Dropdown-item name="Low">{{$t('m.Low')}}</Dropdown-item>
                 <Dropdown-item name="Mid" >{{$t('m.Mid')}}</Dropdown-item>
                 <Dropdown-item name="High">{{$t('m.High')}}</Dropdown-item>
+                <Dropdown-item name="Hidden">{{$t('m.Hidden')}}</Dropdown-item>
               </Dropdown-menu>
             </Dropdown>
           </li>

@@ -194,6 +194,7 @@ export const m = {
   Total_Score: 'Total Score',
   // ProblemList.vue
   Problem_List: 'Problem List',
+  Hidden: 'Hidden',
   High: 'High',
   Mid: 'Mid',
   Low: 'Low',
