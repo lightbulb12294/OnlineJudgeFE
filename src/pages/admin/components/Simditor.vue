@@ -40,6 +40,7 @@
           connectionCount: 3,
           leaveConfirm: this.$i18n.t('m.Uploading_is_in_progress')
         },
+        allowedTags: ['*'],
         allowedStyles: {
           span: ['color']
         }
