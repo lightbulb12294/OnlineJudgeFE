@@ -107,6 +107,7 @@ export const m = {
   Contest_Password: 'Password',
   Contest_Rule_Type: 'Contest Rule Type',
   Real_Time_Rank: 'Real Time Rank',
+  Lock_All_Submission_Code: 'Lock All Submission Code',
   Contest_Status: 'Status',
   Allowed_IP_Ranges: 'Allowed IP Ranges',
   CIDR_Network: 'CIDR Network',

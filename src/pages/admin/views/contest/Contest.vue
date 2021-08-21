@@ -36,13 +36,13 @@
               <el-input v-model="contest.password" :placeholder="$t('m.Contest_Password')"></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Contest_Rule_Type')">
               <el-radio class="radio" v-model="contest.rule_type" label="ACM" :disabled="disableRuleType">ACM</el-radio>
               <el-radio class="radio" v-model="contest.rule_type" label="OI" :disabled="disableRuleType">OI</el-radio>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Real_Time_Rank')">
               <el-switch
                 v-model="contest.real_time_rank"
@@ -51,7 +51,16 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
+            <el-form-item :label="$t('m.Lock_All_Submission_Code')">
+              <el-switch
+                v-model="contest.lock_all_submission_code"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
             <el-form-item :label="$t('m.Contest_Status')">
               <el-switch
                 v-model="contest.visible"
@@ -103,6 +112,7 @@
           rule_type: 'ACM',
           password: '',
           real_time_rank: true,
+          lock_all_submission_code: false,
           visible: true,
           allowed_ip_ranges: [{
             value: ''
