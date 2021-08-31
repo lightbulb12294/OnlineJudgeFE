@@ -41,6 +41,7 @@
 <script>
   import api from '@oj/api'
   import Pagination from '@oj/components/Pagination'
+  import marked from 'marked'
 
   export default {
     name: 'Announcement',
@@ -73,6 +74,9 @@
         api.getAnnouncementList((page - 1) * this.limit, this.limit).then(res => {
           this.btnLoading = false
           this.announcements = res.data.data.results
+          for (var i = 0; i < this.announcements.length; i++) {
+            this.announcements[i].content = marked(this.announcements[i].content)
+          }
           this.total = res.data.data.total
         }, () => {
           this.btnLoading = false
@@ -83,6 +87,9 @@
         api.getContestAnnouncementList(this.$route.params.contestID).then(res => {
           this.btnLoading = false
           this.announcements = res.data.data
+          for (var i = 0; i < this.announcements.length; i++) {
+            this.announcements[i].content = marked(this.announcements[i].content)
+          }
         }, () => {
           this.btnLoading = false
         })

@@ -82,6 +82,7 @@
   import { types } from '@/store'
   import { CONTEST_STATUS_REVERSE, CONTEST_STATUS } from '@/utils/constants'
   import time from '@/utils/time'
+  import marked from 'marked'
 
   export default {
     name: 'ContestDetail',
@@ -133,6 +134,7 @@
       this.$store.dispatch('getContest').then(res => {
         this.changeDomTitle({title: res.data.data.title})
         let data = res.data.data
+        data.description = marked(data.description)
         let endTime = moment(data.end_time)
         if (endTime.isAfter(moment(data.now))) {
           this.timer = setInterval(() => {

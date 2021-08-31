@@ -81,7 +81,7 @@
           </el-input>
         </el-form-item>
         <el-form-item :label="$t('m.Announcement_Content')" required>
-          <Simditor v-model="announcement.content"></Simditor>
+          <Editor v-model="announcement.content"></Editor>
         </el-form-item>
         <div class="visible-box">
           <span>{{$t('m.Announcement_visible')}}</span>
@@ -101,13 +101,13 @@
 </template>
 
 <script>
-  import Simditor from '../../components/Simditor.vue'
+  import Editor from '../../components/Editor.vue'
   import api from '../../api.js'
 
   export default {
     name: 'Announcement',
     components: {
-      Simditor
+      Editor
     },
     data () {
       return {

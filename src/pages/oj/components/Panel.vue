@@ -13,6 +13,7 @@
 </template>
 
 <script>
+  import 'github-markdown-css/github-markdown.css'
   export default {
     name: 'Panel',
     props: {
@@ -61,7 +62,7 @@
     }
   }
   .panel-body {
-    word-break: break-all;
+    word-break: break-word;
     word-wrap: break-word;
   }
 </style>

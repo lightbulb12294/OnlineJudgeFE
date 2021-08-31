@@ -19,19 +19,19 @@
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="description" :label="$t('m.Description')" required>
-              <Simditor v-model="problem.description"></Simditor>
+              <Editor v-model="problem.description"></Editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row :gutter="20">
           <el-col :span="24">
             <el-form-item prop="input_description" :label="$t('m.Input_Description')" required>
-              <Simditor v-model="problem.input_description"></Simditor>
+              <Editor v-model="problem.input_description"></Editor>
             </el-form-item>
           </el-col>
           <el-col :span="24">
             <el-form-item prop="output_description" :label="$t('m.Output_Description')" required>
-              <Simditor v-model="problem.output_description"></Simditor>
+              <Editor v-model="problem.output_description"></Editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -149,7 +149,7 @@
           </button>
         </div>
         <el-form-item style="margin-top: 20px" :label="$t('m.Hint')">
-          <Simditor v-model="problem.hint" placeholder=""></Simditor>
+          <Editor v-model="problem.hint" placeholder=""></Editor>
         </el-form-item>
         <el-form-item :label="$t('m.Code_Template')">
           <el-row>
@@ -267,17 +267,17 @@
 </template>
 
 <script>
-  import Simditor from '../../components/Simditor'
   import Accordion from '../../components/Accordion'
   import CodeMirror from '../../components/CodeMirror'
   import api from '../../api'
+  import Editor from '../../components/Editor'
 
   export default {
     name: 'Problem',
     components: {
-      Simditor,
       Accordion,
-      CodeMirror
+      CodeMirror,
+      Editor
     },
     data () {
       return {
