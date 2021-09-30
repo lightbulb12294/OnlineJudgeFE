@@ -13,7 +13,7 @@
               <Editor v-model="contest.description"></Editor>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Contest_Start_Time')" required>
               <el-date-picker
                 v-model="contest.start_time"
@@ -22,7 +22,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Contest_End_Time')" required>
               <el-date-picker
                 v-model="contest.end_time"
@@ -31,7 +31,7 @@
               </el-date-picker>
             </el-form-item>
           </el-col>
-          <el-col :span="8">
+          <el-col :span="6">
             <el-form-item :label="$t('m.Contest_Password')">
               <el-input v-model="contest.password" :placeholder="$t('m.Contest_Password')"></el-input>
             </el-form-item>
@@ -55,6 +55,15 @@
             <el-form-item :label="$t('m.Lock_All_Submission_Code')">
               <el-switch
                 v-model="contest.lock_all_submission_code"
+                active-color="#13ce66"
+                inactive-color="#ff4949">
+              </el-switch>
+            </el-form-item>
+          </el-col>
+          <el-col :span="6">
+            <el-form-item :label="$t('m.Underway_Share')">
+              <el-switch
+                v-model="contest.underway_share"
                 active-color="#13ce66"
                 inactive-color="#ff4949">
               </el-switch>
@@ -113,6 +122,7 @@
           password: '',
           real_time_rank: true,
           lock_all_submission_code: false,
+          underway_share: false,
           visible: true,
           allowed_ip_ranges: [{
             value: ''
