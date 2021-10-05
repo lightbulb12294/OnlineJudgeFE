@@ -32,7 +32,7 @@
       </template>
 
       <template v-else>
-        <div v-katex v-html="announcement.content" key="content" class="content-container markdown-body"></div>
+        <div v-html="announcement.content" key="content" class="content-container markdown-body"></div>
       </template>
     </transition-group>
   </Panel>
@@ -41,7 +41,7 @@
 <script>
   import api from '@oj/api'
   import Pagination from '@oj/components/Pagination'
-  import marked from 'marked'
+  import {renderWithMarkdown} from '@/plugins/katex.js'
 
   export default {
     name: 'Announcement',
@@ -75,7 +75,7 @@
           this.btnLoading = false
           this.announcements = res.data.data.results
           for (var i = 0; i < this.announcements.length; i++) {
-            this.announcements[i].content = marked(this.announcements[i].content)
+            this.announcements[i].content = renderWithMarkdown(this.announcements[i].content)
           }
           this.total = res.data.data.total
         }, () => {
@@ -88,7 +88,7 @@
           this.btnLoading = false
           this.announcements = res.data.data
           for (var i = 0; i < this.announcements.length; i++) {
-            this.announcements[i].content = marked(this.announcements[i].content)
+            this.announcements[i].content = renderWithMarkdown(this.announcements[i].content)
           }
         }, () => {
           this.btnLoading = false
