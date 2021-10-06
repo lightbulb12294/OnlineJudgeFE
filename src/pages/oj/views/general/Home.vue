@@ -52,6 +52,9 @@
       let params = {status: CONTEST_STATUS.NOT_START}
       api.getContestList(0, 5, params).then(res => {
         this.contests = res.data.data.results
+        for (let i = 0; i < this.contests.length; i++) {
+          this.contests[i].description = this.contests[i].description.split('\n')[0]
+        }
       })
     },
     methods: {
