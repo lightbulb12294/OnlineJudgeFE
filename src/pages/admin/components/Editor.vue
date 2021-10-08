@@ -37,7 +37,7 @@
 
 <script>
   import 'github-markdown-css/github-markdown.css'
-  import {renderWithMarkdown} from '@/plugins/katex.js'
+  import marked from '@/plugins/marked-math'
 
   export default {
     props: {
@@ -53,12 +53,12 @@
     },
     mounted () {
       this.$refs.editor.value = this.value
-      this.$refs.render.innerHTML = renderWithMarkdown(this.value)
+      this.$refs.render.innerHTML = marked(this.value)
     },
     methods: {
       onEditorInput () {
         this.currentValue = this.$refs.editor.value
-        this.$refs.render.innerHTML = renderWithMarkdown(this.currentValue)
+        this.$refs.render.innerHTML = marked(this.currentValue)
       },
       uploadSucceed (response, type) {
         if (response.success !== true) {
@@ -73,7 +73,7 @@
           var curPos = this.$refs.editor.selectionStart
           this.$refs.editor.value = this.$refs.editor.value.slice(0, curPos) + insertStr + this.$refs.editor.value.slice(curPos)
           this.currentValue = this.$refs.editor.value
-          this.$refs.render.innerHTML = renderWithMarkdown(this.currentValue)
+          this.$refs.render.innerHTML = marked(this.currentValue)
           this.$success(response.msg)
         }
       },
@@ -89,7 +89,7 @@
         if (this.currentValue !== val) {
           this.currentValue = val
           this.$refs.editor.value = val
-          this.$refs.render.innerHTML = renderWithMarkdown(this.currentValue)
+          this.$refs.render.innerHTML = marked(this.currentValue)
         }
       },
       'currentValue' (newVal, oldVal) {

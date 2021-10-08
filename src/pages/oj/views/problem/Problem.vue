@@ -208,7 +208,7 @@
   import {JUDGE_STATUS, CONTEST_STATUS, buildProblemCodeKey} from '@/utils/constants'
   import api from '@oj/api'
   import {pie, largePie} from './chartData'
-  import {renderWithMarkdown} from '@/plugins/katex.js'
+  import marked from '@/plugins/marked-math'
 
   // 只显示这些状态的图形占用
   const filtedStatus = ['-1', '-2', '0', '1', '2', '3', '4', '8']
@@ -286,10 +286,10 @@
         api[func](this.problemID, this.contestID).then(res => {
           this.$Loading.finish()
           let problem = res.data.data
-          problem.description = renderWithMarkdown(problem.description)
-          problem.input_description = renderWithMarkdown(problem.input_description)
-          problem.output_description = renderWithMarkdown(problem.output_description)
-          problem.hint = renderWithMarkdown(problem.hint)
+          problem.description = marked(problem.description)
+          problem.input_description = marked(problem.input_description)
+          problem.output_description = marked(problem.output_description)
+          problem.hint = marked(problem.hint)
           this.changeDomTitle({title: problem.title})
           api.submissionExists(problem.id).then(res => {
             this.submissionExists = res.data.data
@@ -544,7 +544,6 @@
     p.content {
       margin-left: 25px;
       margin-right: 20px;
-      font-size: 15px
     }
     .sample {
       align-items: stretch;
