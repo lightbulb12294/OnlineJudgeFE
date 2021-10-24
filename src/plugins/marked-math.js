@@ -39,7 +39,6 @@ const inlineMath = {
         type: 'inlineMath',
         raw: match[0],
         text: match[1],
-        tokens: []
       }
       return token
     }
@@ -50,7 +49,7 @@ const inlineMath = {
 }
 const blockMath = {
   name: 'blockMath',
-  level: 'inline',
+  level: 'block',
   start(src) {
     let _ = src.match(/\$\$[^\$]/)
     if (_ !== null) {
@@ -60,14 +59,13 @@ const blockMath = {
     }
   },
   tokenizer(src) {
-    const rule = /^\$\$((\\\$|[^\$])+?)\$\$/
+    const rule = /^\$\$((\\\$|[^\$])+?)\n\$\$/
     const match = rule.exec(src)
     if (match) {
       const token = {
         type: 'blockMath',
         raw: match[0],
         text: match[1],
-        tokens: []
       }
       return token
     }
@@ -76,7 +74,98 @@ const blockMath = {
     return render(token.text, {displayMode: true})
   }
 }
-marked.use({ extensions: [inlineMath, blockMath] })
+const inlineSup = {
+  name: 'inlineSup',
+  level: 'inline',
+  start(src) {
+    let _ = src.match(/\^[^\^\n]/)
+    if (_ !== null) {
+      return _.index
+    } else {
+      return undefined
+    }
+  },
+  tokenizer(src) {
+    const rule = /^\^([^\^\n]+?)\^/
+    const match = rule.exec(src)
+    if (match) {
+      const token = {
+        type: 'inlineSup',
+        raw: match[0],
+        text: match[1],
+        tokens: []
+      }
+      this.lexer.inline(token.text, token.tokens)
+      return token
+    }
+  },
+  renderer(token) {
+    return `<sup>${this.parser.parseInline(token.tokens)}</sup>`
+  }
+}
+const inlineSub = {
+  name: 'inlineSub',
+  level: 'inline',
+  start(src) {
+    let _ = src.match(/_[^_\n]/)
+    if (_ !== null) {
+      return _.index
+    } else {
+      return undefined
+    }
+  },
+  tokenizer(src) {
+    const rule = /^_([^_\n]+?)_/
+    const match = rule.exec(src)
+    if (match) {
+      const token = {
+        type: 'inlineSub',
+        raw: match[0],
+        text: match[1],
+        tokens: []
+      }
+      this.lexer.inline(token.text, token.tokens)
+      return token
+    }
+  },
+  renderer(token) {
+    return `<sub>${this.parser.parseInline(token.tokens)}</sub>`
+  }
+}
+const inlineHl = {
+  name: 'inlineHl',
+  level: 'inline',
+  start(src) {
+    let _ = src.match(/==[^\n]/)
+    if (_ !== null) {
+      return _.index
+    } else {
+      return undefined
+    }
+  },
+  tokenizer(src) {
+    const rule = /^==([^\n]+?)==/
+    const match = rule.exec(src)
+    if (match) {
+      const token = {
+        type: 'inlineHl',
+        raw: match[0],
+        text: match[1],
+        tokens: []
+      }
+      this.lexer.inline(token.text, token.tokens)
+      return token
+    }
+  },
+  renderer(token) {
+    return `<span style='background-color:yellow'>${this.parser.parseInline(token.tokens)}</span>`
+  }
+}
 /* eslint-enable */
+
+// math render support
+marked.use({ extensions: [inlineMath, blockMath] })
+// other inline support
+marked.use({ extensions: [inlineSup, inlineSub, inlineHl] })
 
 export default marked
