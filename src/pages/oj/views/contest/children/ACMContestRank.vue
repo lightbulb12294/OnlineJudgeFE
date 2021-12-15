@@ -247,7 +247,33 @@
         let dataRank = JSON.parse(JSON.stringify(data))
         // 从submission_info中取出相应的problem_id 放入到父object中,这么做主要是为了适应iview table的data格式
         // 见https://www.iviewui.com/components/table
+        let keys = new Set()
+        this.columns.forEach(column => {
+          if (column.hasOwnProperty('key')) {
+            keys.add(column.key)
+          }
+        })
         dataRank.forEach((rank, i) => {
+          Object.getOwnPropertyNames(rank.submission_info).forEach(id => {
+            let intId = parseInt(id)
+            if (keys.has(intId) === false) {
+              keys.add(intId)
+              this.columns.push({
+                align: 'center',
+                key: intId,
+                renderHeader: (h, params) => {
+                  return h('a', {
+                    'class': {
+                      'emphasis': true
+                    }
+                  }, intId)
+                },
+                render: (h, params) => {
+                  return h('span', params.row[intId])
+                }
+              })
+            }
+          })
           let info = rank.submission_info
           let cellClass = {}
           Object.keys(info).forEach(problemID => {
