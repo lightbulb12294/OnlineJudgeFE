@@ -96,7 +96,19 @@
               <span v-if="submitting">{{$t('m.Submitting')}}</span>
               <span v-else>{{$t('m.Submit')}}</span>
             </Button>
+            <Button type="error" icon="bug" :loading="submitting" @click="submitTest"
+                    :disabled="problemSubmitDisabled || submitted"
+                    class="fl-right sample-test" style="margin-right:20px">
+              <span v-if="submitting">{{$t('m.Submitting')}}</span>
+              <span v-else>{{$t('m.Submit_for_sample_test')}}</span>
+            </Button>
           </Col>
+        </Row>
+        <Row type="flex" justify="space-between">
+          <h3 class="title">{{$t('m.Sample_Test_Output')}}</h3>
+        </Row>
+        <Row type="flex" justify="space-between">
+          <pre id="sample-test-output" class="sample-test" style="border-style:solid;padding:16px;width:100%;word-wrap:break-word;white-space:pre-line"></pre>
         </Row>
       </Card>
     </div>
@@ -295,6 +307,11 @@
             this.submissionExists = res.data.data
           })
           problem.languages = problem.languages.sort()
+          if (problem.sampletest === false) {
+            for (let el of document.getElementsByClassName('sample-test')) {
+              el.style.display = 'none'
+            }
+          }
           this.problem = problem
           this.changePie(problem)
 
@@ -399,6 +416,32 @@
           })
         }
         this.refreshStatus = setTimeout(checkStatus, 2000)
+      },
+      submitTest () {
+        if (this.code.trim() === '') {
+          this.$error(this.$i18n.t('m.Code_can_not_be_empty'))
+          return
+        }
+        this.submitting = true
+        let data = {
+          problem_id: this.problem.id,
+          language: this.language,
+          code: this.code,
+          contest_id: this.contestID
+        }
+        if (this.captchaRequired) {
+          data.captcha = this.captchaCode
+        }
+        api.ProblemSampleTest(data).then(res => {
+          this.submitting = false
+          let output = document.getElementById('sample-test-output')
+          console.log(res.data.data.err)
+          if (typeof res.data.data.err === 'string') {
+            output.innerText = res.data.data.err + ':\n' + res.data.data.data
+          } else {
+            output.innerText = res.data.data.data.output
+          }
+        })
       },
       submitCode () {
         if (this.code.trim() === '') {

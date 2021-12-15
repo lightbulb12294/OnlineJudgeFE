@@ -268,6 +268,11 @@ export default {
     return ajax('admin/contest/acm_helper', 'put', {
       data
     })
+  },
+  ProblemSampleTest (data) {
+    return ajax('sample_test', 'post', {
+      data
+    })
   }
 }
 

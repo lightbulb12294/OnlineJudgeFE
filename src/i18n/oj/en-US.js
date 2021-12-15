@@ -19,6 +19,8 @@ export const m = {
   Tags: 'Tags',
   Show: 'Show',
   Submit: 'Submit',
+  Submit_for_sample_test: 'Submit for Sample Test',
+  Sample_Test_Output: 'Sample Test Output',
   Submitting: 'Submitting',
   Judging: 'Judging',
   Wrong_Answer: 'Wrong Answer',
