@@ -58,7 +58,7 @@
           </el-col>
         </el-row>
         <el-row :gutter="20">
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item :label="$t('m.Visible')">
               <el-switch
                 v-model="problem.visible"
@@ -67,7 +67,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
+          <el-col :span="4">
             <el-form-item :label="$t('m.ShareSubmission')">
               <el-switch
                 v-model="problem.share_submission"
@@ -76,16 +76,7 @@
               </el-switch>
             </el-form-item>
           </el-col>
-          <el-col :span="3">
-            <el-form-item :label="$t('m.SampleTest')">
-              <el-switch
-                v-model="problem.sampletest"
-                active-text=""
-                inactive-text="">
-              </el-switch>
-            </el-form-item>
-          </el-col>
-          <el-col :span="7">
+          <el-col :span="8">
             <el-form-item :label="$t('m.Tag')" :error="error.tags" required>
               <span class="tags">
                 <el-tag

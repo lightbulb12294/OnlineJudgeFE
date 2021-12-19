@@ -11,7 +11,6 @@ export const m = {
   FromFile: 'From File',
   ToFile: 'To File',
   ShareSubmission: 'Share Submission',
-  SampleTest: 'Sample Test',
   Problem_List: 'Problem List',
   Create_Problem: 'Create Problem',
   Export_Import_Problem: 'Export Or Import Problem',

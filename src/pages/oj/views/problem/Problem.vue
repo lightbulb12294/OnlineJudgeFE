@@ -105,10 +105,17 @@
           </Col>
         </Row>
         <Row type="flex" justify="space-between">
-          <h3 class="title">{{$t('m.Sample_Test_Output')}}</h3>
-        </Row>
-        <Row type="flex" justify="space-between">
-          <pre id="sample-test-output" class="sample-test" style="border-style:solid;padding:16px;width:100%;word-wrap:break-word;white-space:pre-line"></pre>
+          <div class="flex-container sample-test">
+            <div style="width:48%;">
+              <h3 class="title">{{$t('m.Sample_Test_Input')}}</h3>
+              <pre id="sample-test-input" contenteditable="true" v-if="problem.samples">{{problem.samples[0].input}}</pre>
+              <pre id="sample-test-input" contenteditable="true" v-else></pre>
+            </div>
+            <div style="width:48%;">
+              <h3 class="title">{{$t('m.Sample_Test_Output')}}</h3>
+              <pre id="sample-test-output"></pre>
+            </div>
+          </div>
         </Row>
       </Card>
     </div>
@@ -307,11 +314,6 @@
             this.submissionExists = res.data.data
           })
           problem.languages = problem.languages.sort()
-          if (problem.sampletest === false) {
-            for (let el of document.getElementsByClassName('sample-test')) {
-              el.style.display = 'none'
-            }
-          }
           this.problem = problem
           this.changePie(problem)
 
@@ -427,7 +429,11 @@
           problem_id: this.problem.id,
           language: this.language,
           code: this.code,
-          contest_id: this.contestID
+          contest_id: this.contestID,
+          test_case: {
+            input: document.getElementById('sample-test-input').innerText,
+            output: ''
+          }
         }
         if (this.captchaRequired) {
           data.captcha = this.captchaCode
@@ -624,6 +630,13 @@
         margin-left: 20px;
       }
     }
+  }
+
+  #sample-test-input, #sample-test-output {
+    border-style :solid;
+    padding: 16px;
+    word-wrap: break-word;
+    white-space: pre-line;
   }
 
   #info {
