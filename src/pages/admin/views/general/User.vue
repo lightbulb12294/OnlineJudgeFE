@@ -57,6 +57,7 @@
         </el-table-column>
       </el-table>
       <div class="panel-options">
+        <el-button type="primary" icon="el-icon-fa-download" @click.native="exportUsers">Export Users</el-button>
         <el-pagination
           class="page"
           layout="prev, pager, next"
@@ -391,6 +392,35 @@
       },
       handleResetData () {
         this.uploadUsers = []
+      },
+      exportUsers () {
+        let table = []
+        let total = this.total
+        for (let i = 0; i < total; i += this.pageSize) {
+          api.getUserList(i, this.pageSize, this.keyword).then(res => {
+            res.data.data.results.forEach(function (row) {
+              table.push([row.username, row.email, row.real_name])
+            })
+          })
+        }
+        let csvTable = ''
+        let csvOutput = function () {
+          if (table.length !== total) {
+            setTimeout(csvOutput, 100)
+          } else {
+            for (let i = 0; i < table.length; i++) {
+              csvTable += table[i].join(',') + '\r\n'
+            }
+            let link = document.createElement('a')
+            link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvTable))
+            link.setAttribute('download', 'users.csv')
+            link.style.display = 'none'
+            document.body.appendChild(link)
+            link.click()
+            link.remove()
+          }
+        }
+        csvOutput()
       }
     },
     computed: {
