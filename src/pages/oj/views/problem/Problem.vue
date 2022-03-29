@@ -108,12 +108,11 @@
           <div class="flex-container sample-test">
             <div style="width:48%;">
               <h3 class="title">{{$t('m.Sample_Test_Input')}}</h3>
-              <pre id="sample-test-input" contenteditable="true" v-if="problem.samples">{{problem.samples[0].input}}</pre>
-              <pre id="sample-test-input" contenteditable="true" v-else></pre>
+              <textarea id="sample-test-input" v-model="testInput"></textarea>
             </div>
             <div style="width:48%;">
               <h3 class="title">{{$t('m.Sample_Test_Output')}}</h3>
-              <pre id="sample-test-output"></pre>
+              <textarea readonly id="sample-test-output"></textarea>
             </div>
           </div>
         </Row>
@@ -276,7 +275,8 @@
         largePieInitOpts: {
           width: '500',
           height: '480'
-        }
+        },
+        testInput: ''
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -313,6 +313,12 @@
           api.submissionExists(problem.id).then(res => {
             this.submissionExists = res.data.data
           })
+          if (problem.samples) {
+            let testInput = document.getElementById('sample-test-input')
+            this.testInput = problem.samples[0].input
+            testInput.value = problem.samples[0].input
+            this.textareaAutoHeight('sample-test-input')
+          }
           problem.languages = problem.languages.sort()
           this.problem = problem
           this.changePie(problem)
@@ -419,6 +425,11 @@
         }
         this.refreshStatus = setTimeout(checkStatus, 2000)
       },
+      textareaAutoHeight (id) {
+        let el = document.getElementById(id)
+        el.style.height = 'auto'
+        el.style.height = el.scrollHeight + 'px'
+      },
       submitTest () {
         if (this.code.trim() === '') {
           this.$error(this.$i18n.t('m.Code_can_not_be_empty'))
@@ -431,7 +442,7 @@
           code: this.code,
           contest_id: this.contestID,
           test_case: {
-            input: document.getElementById('sample-test-input').innerText,
+            input: document.getElementById('sample-test-input').value,
             output: ''
           }
         }
@@ -441,12 +452,15 @@
         api.ProblemSampleTest(data).then(res => {
           this.submitting = false
           let output = document.getElementById('sample-test-output')
-          console.log(res.data.data.err)
-          if (typeof res.data.data.err === 'string') {
-            output.innerText = res.data.data.err + ':\n' + res.data.data.data
+          let data = res.data.data
+          if (typeof data.err === 'string') {
+            output.value = data.err + ':\n' + data.data
+          } else if (data.data.result !== 0 && data.data.result !== -1) {
+            output.value = 'Error: ' + JUDGE_STATUS[data.data.result]['name']
           } else {
-            output.innerText = res.data.data.data.output
+            output.value = data.data.output
           }
+          this.textareaAutoHeight('sample-test-output')
         })
       },
       submitCode () {
@@ -558,6 +572,9 @@
     watch: {
       '$route' () {
         this.init()
+      },
+      'testInput' () {
+        this.textareaAutoHeight('sample-test-input')
       }
     }
   }
@@ -633,10 +650,16 @@
   }
 
   #sample-test-input, #sample-test-output {
-    border-style :solid;
+    overflow: hidden;
+    resize: none;
+    border: 3px;
+    margin: 14px;
+    width: 100%;
+    border-style: solid;
     padding: 16px;
     word-wrap: break-word;
     white-space: pre-line;
+    font-family: 'consolas';
   }
 
   #info {
