@@ -94,6 +94,43 @@ function getLanguages () {
   })
 }
 
+// fix request network error: replace "() {" and record position
+function getIndicesOf (searchStr, str) {
+  var searchStrLen = searchStr.length
+  if (searchStrLen === 0) {
+    return []
+  }
+  var startIndex = 0
+  var index
+  var indices = []
+  while ((index = str.indexOf(searchStr, startIndex)) > -1) {
+    indices.push(index)
+    startIndex = index + searchStrLen
+  }
+  return indices
+}
+function replace (data) {
+  if (typeof data === 'object' && data !== null) {
+    let keys = Object.keys(data)
+    for (let i = 0; i < keys.length; i++) {
+      let key = keys[i]
+      if (typeof data[key] === 'string') {
+        let idx = getIndicesOf('() {', data[key])
+        if (idx.length !== 0) {
+          let text = Array.from(data[key])
+          for (let j = 0; j < idx.length; j++) {
+            idx[j] += 2
+            text[idx[j]] = '1'
+          }
+          data[key] = {'text': text.join(''), 'replace': idx}
+        }
+      } else {
+        replace(data[key])
+      }
+    }
+  }
+}
+
 export default {
   submissionMemoryFormat: submissionMemoryFormat,
   submissionTimeFormat: submissionTimeFormat,
@@ -101,5 +138,6 @@ export default {
   filterEmptyValue: filterEmptyValue,
   breakLongWords: breakLongWords,
   downloadFile: downloadFile,
-  getLanguages: getLanguages
+  getLanguages: getLanguages,
+  replace: replace
 }

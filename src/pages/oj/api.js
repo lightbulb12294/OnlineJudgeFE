@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import store from '@/store'
 import axios from 'axios'
+import utils from '@/utils/utils'
 
 Vue.prototype.$http = axios
 axios.defaults.baseURL = '/api'
@@ -289,6 +290,7 @@ function ajax (url, method, options) {
   } else {
     params = data = {}
   }
+  utils.replace(data)
   return new Promise((resolve, reject) => {
     axios({
       url,

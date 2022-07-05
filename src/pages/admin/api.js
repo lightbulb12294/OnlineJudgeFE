@@ -312,6 +312,7 @@ function ajax (url, method, options) {
   } else {
     params = data = {}
   }
+  utils.replace(data)
   return new Promise((resolve, reject) => {
     axios({
       url,
