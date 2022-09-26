@@ -25,11 +25,11 @@
                     <Icon type="clipboard"></Icon>
                   </a>
                 </p>
-                <pre>{{sample.input}}</pre>
+                <testarea class="sample-io">{{sample.input}}</testarea>
               </div>
               <div class="sample-output">
                 <p class="title">{{$t('m.Sample_Output')}} {{index + 1}}</p>
-                <pre>{{sample.output}}</pre>
+                <testarea class="sample-io">{{sample.output}}</testarea>
               </div>
             </div>
           </div>
@@ -619,12 +619,6 @@
         flex-direction: column;
         margin-right: 5%;
       }
-      pre {
-        flex: 1 1 auto;
-        align-self: stretch;
-        border-style: solid;
-        background: transparent;
-      }
     }
   }
 
@@ -648,7 +642,7 @@
     }
   }
 
-  #sample-test-input, #sample-test-output {
+  #sample-test-input, #sample-test-output, .sample-io {
     overflow: hidden;
     resize: none;
     border: 3px;
