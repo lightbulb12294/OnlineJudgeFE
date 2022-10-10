@@ -25,11 +25,11 @@
                     <Icon type="clipboard"></Icon>
                   </a>
                 </p>
-                <testarea class="sample-io">{{sample.input}}</testarea>
+                <pre class="sample-io">{{sample.input}}</pre>
               </div>
               <div class="sample-output">
                 <p class="title">{{$t('m.Sample_Output')}} {{index + 1}}</p>
-                <testarea class="sample-io">{{sample.output}}</testarea>
+                <pre class="sample-io">{{sample.output}}</pre>
               </div>
             </div>
           </div>
@@ -651,8 +651,9 @@
     border-style: solid;
     padding: 16px;
     word-wrap: break-word;
-    white-space: pre-line;
+    white-space: pre-wrap;
     font-family: 'consolas';
+    background: transparent;
   }
 
   #info {
