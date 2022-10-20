@@ -89,6 +89,7 @@
         options: {
           // codemirror options
           tabSize: 4,
+          indentUnit: 4,
           mode: 'text/x-csrc',
           theme: 'solarized',
           lineNumbers: true,

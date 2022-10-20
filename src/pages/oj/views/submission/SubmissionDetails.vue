@@ -209,5 +209,6 @@
   pre {
     border: none;
     background: none;
+    tab-size: 4;
   }
 </style>
