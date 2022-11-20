@@ -161,11 +161,47 @@ const inlineHl = {
     return `<span style='background-color:yellow'>${this.parser.parseInline(token.tokens)}</span>`
   }
 }
+const spoiler = {
+  name: 'spoiler',
+  level: 'block',
+  start(src) {
+    let _ = src.match(/:::spoiler/)
+    if (_ !== null) {
+      return _.index
+    } else {
+      return undefined
+    }
+  },
+  tokenizer(src) {
+    const rule = /^:::spoiler( .+)?(([^:]|:[^:]|::[^:])+?)\n:::/
+    const match = rule.exec(src)
+    if (match) {
+      const token = {
+        type: 'spoiler',
+        raw: match[0],
+        summary: match[1],
+        text: match[2],
+        tokens: []
+      }
+      this.lexer.blockTokens(token.text, token.tokens)
+      return token
+    }
+  },
+  renderer(token) {
+    if (token.summary === undefined) {
+      return `<details>${token.text}</details>`
+    } else {
+      return `<details><summary>${token.summary}</summary>${this.parser.parse(token.tokens)}</details>`
+    }
+  }
+}
 /* eslint-enable */
 
 // math render support
 marked.use({ extensions: [inlineMath, blockMath] })
 // other inline support
 marked.use({ extensions: [inlineSup, inlineSub, inlineHl] })
+
+marked.use({ extensions: [spoiler] })
 
 export default marked
